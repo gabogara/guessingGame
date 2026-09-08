@@ -31,12 +31,22 @@ public class GuessingGame {
         continue;
       }
       numAttempts++;
-
+      checkEntry(attempt, numAttempts, jar);
       if(attempt == jar.getNumItems()){
-        System.out.printf("Congrats!!! You got it in %d attempt(s).%n",  numAttempts);
         guessedCorrectly = true;
       }
 
+    }
+  }
+
+  public static void checkEntry(int attempt, int numAttempts, Jar jar){
+    if(attempt > jar.getNumItems()){
+      System.out.println("Your guess is too high");
+    }
+    else if(attempt < jar.getNumItems()){
+      System.out.println("Your guess is too low");
+    }else{
+      System.out.printf("Congrats!!! You got it in %d attempt(s).%n",  numAttempts);
     }
   }
 }

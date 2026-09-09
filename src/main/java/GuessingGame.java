@@ -26,27 +26,26 @@ public class GuessingGame {
       System.out.printf("How many %s are in the jar? Pick a number between 1 and %d: ", jar.getItemName(),
               jar.getMaxItems());
       attempt = Integer.parseInt(input.nextLine());
-      if(attempt <1 || attempt > maxItems){
+      if(attempt <1 || attempt > jar.getMaxItems()){
         System.out.printf("%nThe picked number must be between 1 and %d.%n", maxItems);
         continue;
       }
       numAttempts++;
-      checkEntry(attempt, numAttempts, jar);
-      if(attempt == jar.getNumItems()){
-        guessedCorrectly = true;
-      }
-
+      guessedCorrectly = checkEntry(attempt, numAttempts, jar);
     }
   }
 
-  public static void checkEntry(int attempt, int numAttempts, Jar jar){
+  public static boolean checkEntry(int attempt, int numAttempts, Jar jar){
     if(attempt > jar.getNumItems()){
       System.out.println("Your guess is too high");
+      return false;
     }
     else if(attempt < jar.getNumItems()){
       System.out.println("Your guess is too low");
+      return false;
     }else{
       System.out.printf("Congrats!!! You got it in %d attempt(s).%n",  numAttempts);
+      return true;
     }
   }
 }

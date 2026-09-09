@@ -1,50 +1,45 @@
-import java.util.Scanner;
-
 
 public class GuessingGame {
   public static void main(String[] args) {
 
-    Scanner input = new Scanner(System.in);
-    System.out.printf("%nADMINISTRATOR SETUP%n");
-    System.out.println("------------------------------");
-    System.out.printf("What type of item should go in the jar?: ");
-    String itemName = input.nextLine();
-    System.out.printf("What is the maximum amount of %s should go in the jar?: ", itemName);
-    int maxItems = Integer.parseInt(input.nextLine());
-    System.out.printf("------------------------------%n");
-    System.out.println("");
+    Prompter io = new Prompter();
+    io.printSetupHeader();
+    String itemName = io.askItemName();
+
+    int maxItems = io.askMaxItems(itemName);
+    io.printSetupFooter();
 
     Jar jar = new Jar(itemName, maxItems);
-    System.out.printf("The created Object is: %s and have %d items%n", jar.getItemName(),jar.getMaxItems());
+
+    //for testing
+    //io.printJarCreated(jar);
+
     jar.fill();
     boolean guessedCorrectly = false;
     int attempt;
     int numAttempts = 0;
-    System.out.println("------------------------------");
-    System.out.println("Welcome to the guessing game!");
+    io.printWelcome();
     while(!guessedCorrectly){
-      System.out.printf("How many %s are in the jar? Pick a number between 1 and %d: ", jar.getItemName(),
-              jar.getMaxItems());
-      attempt = Integer.parseInt(input.nextLine());
+      attempt = io.askAttempt(jar);
       if(attempt <1 || attempt > jar.getMaxItems()){
-        System.out.printf("%nThe picked number must be between 1 and %d.%n", maxItems);
+        io.printOutOfRange(maxItems);
         continue;
       }
       numAttempts++;
-      guessedCorrectly = checkEntry(attempt, numAttempts, jar);
+      guessedCorrectly = checkEntry(attempt, numAttempts, jar, io);
     }
   }
 
-  public static boolean checkEntry(int attempt, int numAttempts, Jar jar){
+  public static boolean checkEntry(int attempt, int numAttempts, Jar jar, Prompter io){
     if(attempt > jar.getNumItems()){
-      System.out.println("Your guess is too high");
+      io.printTooHigh();
       return false;
     }
     else if(attempt < jar.getNumItems()){
-      System.out.println("Your guess is too low");
+      io.printTooLow();
       return false;
     }else{
-      System.out.printf("Congrats!!! You got it in %d attempt(s).%n",  numAttempts);
+      io.printWin(numAttempts);
       return true;
     }
   }

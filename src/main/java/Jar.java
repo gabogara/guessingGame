@@ -27,13 +27,9 @@ public class Jar{
   public void fill(){
     Random random = new Random();
     int randomNumber = random.nextInt(maxItems)+1;
-    System.out.printf("The random number is %d.%n", randomNumber);
+    //for testing
+    //System.out.printf("The random number is %d.%n", randomNumber);
     this.numItems = randomNumber;
   }
-
-
-
-
-
 
 }
